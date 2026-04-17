@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 type PlotStatus = "available" | "reserved" | "occupied" | "path";
@@ -17,7 +18,6 @@ const PAYMENT_PLAN_MONTHS = 12;
 
 // 5 rows x 8 columns = 40 "cells"
 const PLOTS: Plot[] = [
-  // Row 1: A1–A8
   { id: "A1", label: "A1", status: "available" },
   { id: "A2", label: "A2", status: "available" },
   { id: "A3", label: "A3", status: "available" },
@@ -27,7 +27,6 @@ const PLOTS: Plot[] = [
   { id: "A7", label: "A7", status: "occupied" },
   { id: "A8", label: "A8", status: "available" },
 
-  // Row 2: B1–B8
   { id: "B1", label: "B1", status: "available" },
   { id: "B2", label: "B2", status: "available" },
   { id: "B3", label: "B3", status: "occupied" },
@@ -37,7 +36,6 @@ const PLOTS: Plot[] = [
   { id: "B6", label: "B6", status: "available" },
   { id: "B7", label: "B7", status: "available" },
 
-  // Row 3: C1–C8
   { id: "C1", label: "C1", status: "available" },
   { id: "C2", label: "C2", status: "available" },
   { id: "C3", label: "C3", status: "available" },
@@ -47,7 +45,6 @@ const PLOTS: Plot[] = [
   { id: "C6", label: "C6", status: "available" },
   { id: "C7", label: "C7", status: "available" },
 
-  // Row 4: D1–D8
   { id: "D1", label: "D1", status: "available" },
   { id: "D2", label: "D2", status: "available" },
   { id: "D3", label: "D3", status: "occupied" },
@@ -57,7 +54,6 @@ const PLOTS: Plot[] = [
   { id: "D6", label: "D6", status: "available" },
   { id: "D7", label: "D7", status: "available" },
 
-  // Row 5: E1–E8
   { id: "E1", label: "E1", status: "available" },
   { id: "E2", label: "E2", status: "available" },
   { id: "E3", label: "E3", status: "available" },
@@ -93,7 +89,12 @@ export default function HomePage() {
       monthly = Math.round(base / PAYMENT_PLAN_MONTHS);
     }
 
-    return { baseSubtotal: base, maintenanceSubtotal: maintenance, total, monthlyPayment: monthly };
+    return {
+      baseSubtotal: base,
+      maintenanceSubtotal: maintenance,
+      total,
+      monthlyPayment: monthly,
+    };
   }, [selectedPlots, includeMaintenance, donation]);
 
   const handleTogglePlot = (plot: Plot) => {
@@ -153,13 +154,11 @@ export default function HomePage() {
     if (plot.status === "occupied") {
       return base + " border border-rose-200 bg-rose-50 text-rose-400";
     }
-    // path
     return base + " border border-sky-200 bg-sky-50 text-slate-500";
   };
 
   return (
     <div className="bg-slate-50 text-slate-900 antialiased min-h-screen">
-      {/* Navbar */}
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-3">
           <div className="flex items-center gap-3">
@@ -210,7 +209,6 @@ export default function HomePage() {
       </header>
 
       <main>
-        {/* Hero */}
         <section className="border-b border-slate-100 bg-[radial-gradient(circle_at_top_left,_#bbf7d0_0,_#ecfeff_30%,_#f9fafb_70%)]">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
             <div>
@@ -227,7 +225,8 @@ export default function HomePage() {
                 dedicated Muslim section in Roslyn Cemetery. Whether you are planning ahead
                 or arranging on short notice, we make the process clear, gentle, and organized.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-4">
+
+              <div className="flex flex-col sm:flex-row gap-3 mb-3">
                 <a
                   href="#plots"
                   className="inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-emerald-600 text-white text-xs sm:text-sm font-medium hover:bg-emerald-700 shadow-sm"
@@ -240,7 +239,14 @@ export default function HomePage() {
                 >
                   Learn how it works
                 </a>
+                <Link
+                  href="/purchase-agreement"
+                  className="inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-slate-200 text-xs sm:text-sm font-medium text-slate-800 bg-white hover:border-emerald-500 hover:text-emerald-700"
+                >
+                  Review Purchase Agreement
+                </Link>
               </div>
+
               <div className="grid grid-cols-2 gap-3 text-[11px] text-slate-600 mb-3">
                 <div className="flex items-start gap-2">
                   <span className="mt-0.5 inline-flex h-5 w-5 rounded-full bg-emerald-100 text-emerald-700 items-center justify-center text-[10px]">
@@ -261,13 +267,13 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
+
               <p className="text-[11px] text-slate-500">
                 <span className="font-semibold text-slate-700">Grave price:</span> $6,000 per grave · 40 total graves
                 available · interest-free plans for 2+ graves.
               </p>
             </div>
 
-            {/* Right side - video + comfort */}
             <div className="relative">
               <div className="relative bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
                 <div className="p-3 sm:p-4 border-b border-slate-100 flex items-center justify-between">
@@ -283,7 +289,6 @@ export default function HomePage() {
                 </div>
                 <div className="p-3 sm:p-4 space-y-3">
                   <div className="aspect-video rounded-2xl overflow-hidden bg-slate-900">
-                    {/* TODO: replace VIDEO_ID with the actual YouTube ID */}
                     <iframe
                       className="w-full h-full"
                       src="https://www.youtube.com/embed/VIDEO_ID"
@@ -328,7 +333,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How It Works */}
         <section id="how-it-works" className="py-10 lg:py-14 border-b border-slate-100 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
@@ -380,11 +384,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Available Plots */}
         <section id="plots" className="py-10 lg:py-14 bg-slate-50 border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-10">
-              {/* Map / layout */}
               <div className="flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                   <div>
@@ -400,7 +402,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Legend */}
                 <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 mb-4">
                   <div className="inline-flex items-center gap-1">
                     <span className="w-4 h-4 rounded-md border border-emerald-500 bg-emerald-50" /> Available
@@ -443,7 +444,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Summary */}
               <aside className="w-full lg:w-80 bg-white rounded-3xl border border-slate-200 shadow-sm p-5 space-y-5">
                 <div>
                   <h3 className="text-sm font-semibold text-slate-900 mb-1">Your selection summary</h3>
@@ -560,6 +560,14 @@ export default function HomePage() {
                   >
                     Proceed to Secure Reservation
                   </button>
+
+                  <Link
+                    href="/purchase-agreement"
+                    className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-full border border-slate-200 text-sm font-medium text-slate-800 bg-white hover:border-emerald-500 hover:text-emerald-700"
+                  >
+                    Review Purchase Agreement
+                  </Link>
+
                   <p className="text-[11px] text-slate-500">
                     Next step: verify grave holder details, optionally provide deceased information, and choose payment in
                     full or interest-free plan (where eligible).
@@ -570,7 +578,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Funeral Services */}
         <section id="services" className="py-10 lg:py-14 bg-white border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -638,7 +645,6 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Forward-looking services */}
               <div className="w-full lg:w-80 bg-slate-900 text-slate-100 rounded-3xl p-5 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_top,_#22c55e,_transparent_60%)]" />
                 <div className="relative space-y-3 text-[11px]">
@@ -703,7 +709,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials */}
         <section id="testimonials" className="py-10 lg:py-14 bg-slate-50 border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
@@ -773,7 +778,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Support / FAQ */}
         <section id="support" className="py-10 lg:py-14 bg-white border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-10">
             <div>
@@ -863,7 +867,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Hours & Location */}
         <section id="hours" className="py-10 lg:py-14 bg-slate-50 border-b border-slate-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             <div className="space-y-3 text-sm">
@@ -921,7 +924,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Contact */}
         <section id="contact" className="py-10 lg:py-14 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-slate-900 text-slate-50 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row gap-8 items-start md:items-center">
@@ -984,7 +986,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50 py-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
           <div>© {year} Markaz e Islami New York · Non-profit organization.</div>
@@ -996,7 +997,6 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Checkout Modal */}
       {showModal && (
         <div
           className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/60 px-4 sm:px-0"
@@ -1046,7 +1046,6 @@ export default function HomePage() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                {/* Grave holder info */}
                 <div className="space-y-2">
                   <h4 className="text-[13px] font-semibold text-slate-900">Grave holder information</h4>
                   <div>
@@ -1091,7 +1090,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Deceased info */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="text-[13px] font-semibold text-slate-900">
@@ -1113,8 +1111,7 @@ export default function HomePage() {
                   </p>
                   <div
                     className={
-                      "space-y-2 " +
-                      (deceasedActive ? "" : "opacity-50 pointer-events-none")
+                      "space-y-2 " + (deceasedActive ? "" : "opacity-50 pointer-events-none")
                     }
                   >
                     <div>
@@ -1169,7 +1166,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Payment preference */}
               <div className="border-t border-slate-200 pt-3 space-y-2 text-xs">
                 <h4 className="text-[13px] font-semibold text-slate-900">Payment preference</h4>
                 <p className="text-[11px] text-slate-500">
@@ -1223,7 +1219,6 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Chatbot */}
       <button
         type="button"
         onClick={() => setShowChat((prev) => !prev)}
